@@ -1,6 +1,4 @@
 ﻿Imports Microsoft.Office.Interop
-
-
 Module ExcelPublic
 
     Public currentDate As DateTime = DateTime.Now
@@ -17,8 +15,7 @@ Module ExcelPublic
         xlsWB = xlsApp.Workbooks.Open(xlsPath & templatefilename)
 
         xlsSheet = xlsWB.Worksheets(1)
-        'xlsCell = xlsSheet.Range("A1")
-        'xlsSheet.Cells(3, 1) = strfilter
+
 
 
         Dim columnName As String
@@ -28,8 +25,6 @@ Module ExcelPublic
             xlsSheet.Cells(5, z + 1) = columnName
             Dim cellRange As Excel.Range = xlsSheet.Cells(5, z + 1)
             cellRange.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter ' Set horizontal alignment to center
-
-            ' AutoFit the cell to fit the content
             cellRange.EntireColumn.AutoFit()
             cellRange.EntireRow.AutoFit()
         Next
@@ -56,12 +51,12 @@ Module ExcelPublic
             .Borders(Excel.XlBordersIndex.xlEdgeRight).LineStyle = Excel.XlLineStyle.xlContinuous
         End With
 
-        'xlsSheet.Cells(1, 1) = "Mike"
+
         templatefilename = templatefilename.Replace(".xlsx", "")
         templatefilename = templatefilename.Replace(".xls", "")
         Dim myfilename As String = templatefilename & " " & currentDate.ToString("yyyy-MM-dd_HHmmss") & ".xlsx"
         MsgBox(myfilename)
-        xlsSheet.UnProtect(strpassword)
+        xlsSheet.Protect(strpassword)
         xlsApp.ActiveWindow.View = Excel.XlWindowView.xlPageLayoutView
         xlsApp.ActiveWindow.DisplayGridlines = False
         xlsWB.SaveAs(xlsFiles & myfilename)
